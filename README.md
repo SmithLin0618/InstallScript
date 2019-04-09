@@ -1,16 +1,17 @@
 # [Odoo](https://www.odoo.com "Odoo's Homepage") Install Script
 
-This script is based on the install script from André Schenkels (https://github.com/aschenkels-ictstudio/openerp-install-scripts)
-but goes a bit further and has been improved. This script will also give you the ability to define an xmlrpc_port in the .conf file that is generated under /etc/
-This script can be safely used in a multi-odoo code base server because the default Odoo port is changed BEFORE the Odoo is started.
 
-## Installation procedure
+## 修改符合GCP安裝用途
 
-##### 1. Download the script:
+##### 1.目前適用ubuntu 18.04 (test in 2019/04/10)
+
+## 安裝流程
+
+##### 1. 下載 script:
 ```
-sudo wget https://raw.githubusercontent.com/Yenthe666/InstallScript/11.0/odoo_install.sh
+sudo wget https://raw.githubusercontent.com/skypc785308/InstallScript/11.0/odoo_install.sh
 ```
-##### 2. Modify the parameters as you wish.
+##### 2. 修改需要變更的參數
 There are a few things you can configure, this is the most used list:<br/>
 ```OE_USER``` will be the username for the system user.<br/>
 ```INSTALL_WKHTMLTOPDF``` set to ```False``` if you do not want to install Wkhtmltopdf, if you want to install it you should set it to ```True```.<br/>
@@ -19,11 +20,11 @@ There are a few things you can configure, this is the most used list:<br/>
 ```IS_ENTERPRISE``` will install the Enterprise version on top of ```11.0``` if you set it to ```True```, set it to ```False``` if you want the community version of Odoo 11.<br/>
 ```OE_SUPERADMIN``` is the master password for this Odoo installation.<br/>
 
-#### 3. Make the script executable
+#### 3. 讓 script 有權限執行:
 ```
 sudo chmod +x odoo_install.sh
 ```
-##### 4. Execute the script:
+##### 4. 執行 script:
 ```
 sudo ./odoo_install.sh
 ```
