@@ -27,8 +27,6 @@ OE_PORT="8069"
 #Choose the Odoo version which you want to install. For example: 11.0, 10.0, 9.0 or saas-18. When using 'master' the master version will be installed.
 #IMPORTANT! This script contains extra libraries that are specifically needed for Odoo 11.0
 OE_VERSION="11.0"
-# Set this to True if you want to install Odoo 11 Enterprise!
-IS_ENTERPRISE="False"
 #set the superadmin password
 OE_SUPERADMIN="admin"
 OE_CONFIG="${OE_USER}-server"
@@ -55,7 +53,7 @@ sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
 
 echo -e "\n---- Install python libraries ----"
 
-sudo apt install git python3-pip build-essential wget python3-dev python3-wheel libxslt1-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools -y
+sudo apt install git python3-pip build-essential wget python3-dev python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools -y
 
 echo -e "\n--- Install other required packages"
 sudo apt install node-clean-css -y
@@ -66,7 +64,7 @@ sudo apt install node-less -y
 #--------------------------------------------------
 sudo wget https://builds.wkhtmltopdf.org/0.12.1.3/wkhtmltox_0.12.1.3-1~bionic_amd64.deb
 sudo dpkg -i wkhtmltox_0.12.1.3-1~bionic_amd64.deb
-sudo apt-get install -f
+sudo apt-get install -f -y
 sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin
 sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin
 
@@ -88,32 +86,6 @@ sudo git clone --depth 1 --branch $OE_VERSION https://www.github.com/odoo/odoo $
 echo -e "\n---- Install Odoo python libraries ----"
 
 sudo pip3 install -r /odoo/odoo-server/requirements.txt
-
-if [ $IS_ENTERPRISE = "True" ]; then
-    # Odoo Enterprise install!
-    echo -e "\n--- Create symlink for node"
-    sudo ln -s /usr/bin/nodejs /usr/bin/node
-    sudo su $OE_USER -c "mkdir $OE_HOME/enterprise"
-    sudo su $OE_USER -c "mkdir $OE_HOME/enterprise/addons"
-
-    GITHUB_RESPONSE=$(sudo git clone --depth 1 --branch $OE_VERSION https://www.github.com/odoo/enterprise "$OE_HOME/enterprise/addons" 2>&1)
-    while [[ $GITHUB_RESPONSE == *"Authentication"* ]]; do
-        echo "------------------------WARNING------------------------------"
-        echo "Your authentication with Github has failed! Please try again."
-        printf "In order to clone and install the Odoo enterprise version you \nneed to be an offical Odoo partner and you need access to\nhttp://github.com/odoo/enterprise.\n"
-        echo "TIP: Press ctrl+c to stop this script."
-        echo "-------------------------------------------------------------"
-        echo " "
-        GITHUB_RESPONSE=$(sudo git clone --depth 1 --branch $OE_VERSION https://www.github.com/odoo/enterprise "$OE_HOME/enterprise/addons" 2>&1)
-    done
-
-    echo -e "\n---- Added Enterprise code under $OE_HOME/enterprise/addons ----"
-    echo -e "\n---- Installing Enterprise specific libraries ----"
-    sudo pip3 install num2words ofxparse
-    sudo apt-get install nodejs npm
-    sudo npm install -g less
-    sudo npm install -g less-plugin-clean-css
-fi
 
 echo -e "\n---- Create custom module directory ----"
 sudo su $OE_USER -c "mkdir $OE_HOME/custom"
