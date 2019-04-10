@@ -33,16 +33,6 @@ IS_ENTERPRISE="False"
 OE_SUPERADMIN="admin"
 OE_CONFIG="${OE_USER}-server"
 
-##
-###  WKHTMLTOPDF download links
-## === Ubuntu Trusty x64 & x32 === (for other distributions please replace these two links,
-## in order to have correct version of wkhtmltox installed, for a danger note refer to 
-## https://www.odoo.com/documentation/8.0/setup/install.html#deb ):
-#WKHTMLTOX_X64=https://downloads.wkhtmltopdf.org/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
-#WKHTMLTOX_X32=https://downloads.wkhtmltopdf.org/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-i386.deb
-
-
-
 #--------------------------------------------------
 # Update Server
 #--------------------------------------------------
@@ -65,7 +55,7 @@ sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
 
 echo -e "\n---- Install python libraries ----"
 
-sudo apt install git python3-pip build-essential wget python3-dev python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools -y
+sudo apt install git python3-pip build-essential wget python3-dev python3-wheel libxslt1-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools -y
 
 echo -e "\n--- Install other required packages"
 sudo apt install node-clean-css -y
@@ -193,31 +183,31 @@ return 1
 }
 case "\${1}" in
 start)
-echo -n "Starting \${DESC}: "
+echo -e "Starting \${DESC}: "
 start-stop-daemon --start --quiet --pidfile \$PIDFILE \
 --chuid \$USER --background --make-pidfile \
 --exec \$DAEMON -- \$DAEMON_OPTS
-echo "\${NAME}."
+echo -e "\${NAME}."
 ;;
 stop)
-echo -n "Stopping \${DESC}: "
+echo -e "Stopping \${DESC}: "
 start-stop-daemon --stop --quiet --pidfile \$PIDFILE \
 --oknodo
-echo "\${NAME}."
+echo -e "\${NAME}."
 ;;
 restart|force-reload)
-echo -n "Restarting \${DESC}: "
+echo -e "Restarting \${DESC}: "
 start-stop-daemon --stop --quiet --pidfile \$PIDFILE \
 --oknodo
 sleep 1
 start-stop-daemon --start --quiet --pidfile \$PIDFILE \
 --chuid \$USER --background --make-pidfile \
 --exec \$DAEMON -- \$DAEMON_OPTS
-echo "\${NAME}."
+echo -e "\${NAME}."
 ;;
 *)
 N=/etc/init.d/\$NAME
-echo "Usage: \$NAME {start|stop|restart|force-reload}" >&2
+echo -e "Usage: \$NAME {start|stop|restart|force-reload}" >&2
 exit 1
 ;;
 esac
