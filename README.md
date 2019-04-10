@@ -18,11 +18,23 @@ There are a few things you can configure, this is the most used list:<br/>
 ```OE_VERSION``` is the Odoo version to install, for example ```11.0``` for Odoo V11.<br/>
 ```OE_SUPERADMIN``` is the master password for this Odoo installation.<br/>
 
-#### 3. 讓 script 有權限執行:
+##### 3. 讓 script 有權限執行:
 ```
 sudo chmod +x odoo_install.sh
 ```
 ##### 4. 執行 script:
 ```
 sudo ./odoo_install.sh
+```
+
+##### 5. 完成，可以經由以下指令控制服務
+```
+# 開啟服務
+sudo service odoo-server start
+# 關閉服務
+sudo service odoo-server stop
+# 重啟服務
+sudo service odoo-server restart
+# 查看服務運行狀態
+sudo service odoo-server status
 ```
