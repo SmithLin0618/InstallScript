@@ -59,6 +59,11 @@ echo -e "\n--- Install other required packages"
 sudo apt install node-clean-css -y
 sudo apt install node-less -y
 
+
+echo -e "\n--- Install chinese font"
+sudo apt install fonts-wqy-zenhei -y
+sudo apt install fonts-wqy-microhei -y
+
 #--------------------------------------------------
 # Install Wkhtmltopdf if needed
 #--------------------------------------------------
@@ -155,31 +160,31 @@ return 1
 }
 case "\${1}" in
 start)
-echo -e "Starting \${DESC}: "
+echo -n "Starting \${DESC}: "
 start-stop-daemon --start --quiet --pidfile \$PIDFILE \
 --chuid \$USER --background --make-pidfile \
 --exec \$DAEMON -- \$DAEMON_OPTS
-echo -e "\${NAME}."
+echo -n "\${NAME}."
 ;;
 stop)
-echo -e "Stopping \${DESC}: "
+echo -n "Stopping \${DESC}: "
 start-stop-daemon --stop --quiet --pidfile \$PIDFILE \
 --oknodo
-echo -e "\${NAME}."
+echo -n "\${NAME}."
 ;;
 restart|force-reload)
-echo -e "Restarting \${DESC}: "
+echo -n "Restarting \${DESC}: "
 start-stop-daemon --stop --quiet --pidfile \$PIDFILE \
 --oknodo
 sleep 1
 start-stop-daemon --start --quiet --pidfile \$PIDFILE \
 --chuid \$USER --background --make-pidfile \
 --exec \$DAEMON -- \$DAEMON_OPTS
-echo -e "\${NAME}."
+echo -n "\${NAME}."
 ;;
 *)
 N=/etc/init.d/\$NAME
-echo -e "Usage: \$NAME {start|stop|restart|force-reload}" >&2
+echo -n "Usage: \$NAME {start|stop|restart|force-reload}" >&2
 exit 1
 ;;
 esac
